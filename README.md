@@ -1,98 +1,200 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Тестовое задание: REST API на **NestJS** с аутентификацией, CRUD для статей, PostgreSQL и Redis.
 
-## Project setup
+Проект демонстрирует:
 
-```bash
-$ npm install
+* JWT-аутентификацию с **access / refresh токенами**
+* хранение refresh token в виде **hash**
+* CRUD API для сущности «Статья»
+* пагинацию и фильтрацию
+* кэширование запросов с использованием **Redis**
+* инвалидацию кэша при изменении данных
+* unit-тесты для бизнес-логики
+
+Проект ориентирован на уровень **Middle NestJS developer** и близок к production-подходу.
+
+---
+
+## Stack
+
+* **Node.js / TypeScript**
+* **NestJS**
+* **PostgreSQL** (TypeORM + migrations)
+* **Redis** (cache-manager)
+* **JWT (access + refresh)**
+* **Docker / Docker Compose**
+* **Jest** (unit tests)
+
+---
+
+## Requirements
+
+* Node.js >= 18
+* Docker + Docker Compose
+
+---
+
+## Environment variables
+
+Создайте файл `.env` в корне проекта:
+
+```env
+# App
+PORT=3000
+
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=123456789
+DB_NAME=articles_db
+
+# JWT
+JWT_ACCESS_SECRET=access_secret
+JWT_ACCESS_EXPIRES_IN=900
+
+JWT_REFRESH_SECRET=refresh_secret
+JWT_REFRESH_EXPIRES_IN=604800
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+TTL=60000
 ```
 
-## Compile and run the project
+---
+
+## Run with Docker
+
+Поднять PostgreSQL и Redis:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker-compose up -d
 ```
 
-## Run tests
+Применить миграции:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run migration:run
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Запустить приложение:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+API будет доступно по адресу:
 
-## Resources
+```
+http://localhost:3000
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Run without Docker
 
-## Support
+1. Запустить PostgreSQL и Redis локально
+2. Создать базу данных
+3. Указать корректные значения в `.env`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Установка зависимостей:
 
-## Stay in touch
+```bash
+npm install
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Применение миграций:
 
-## License
+```bash
+npm run migration:run
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Запуск:
+
+```bash
+npm run start:dev
+```
+
+---
+
+## API Documentation (Swagger)
+
+Swagger доступен по адресу:
+
+```
+http://localhost:3000/api/docs
+```
+
+Документация содержит:
+
+* эндпоинты аутентификации
+* CRUD для статей
+* описание DTO и схем
+
+---
+
+## Authentication
+
+Реализована схема **Access + Refresh token**:
+
+* **Access token** — короткоживущий, используется для доступа к API
+* **Refresh token** — долгоживущий, используется для обновления access token
+* Refresh token хранится в БД **в виде hash**
+* Реализована **rotation refresh token**
+
+Эндпоинты:
+
+* `POST /auth/register`
+* `POST /auth/login`
+* `POST /auth/refresh`
+* `POST /auth/logout`
+
+---
+
+## Articles
+
+Функциональность:
+
+* создание статьи (только авторизованный пользователь)
+* обновление статьи (только авторизованный пользователь)
+* удаление статьи (только авторизованный пользователь)
+* получение списка статей
+* пагинация
+* фильтрация по автору и дате публикации
+
+---
+
+## Caching
+
+* Кэширование списка статей и отдельной статьи
+* Используется Redis
+* Инвалидация списка реализована через **versioned cache key**
+* TTL кэша ограничен
+
+---
+
+## Testing
+
+Unit-тесты покрывают бизнес-логику сервисов.
+
+Запуск тестов:
+
+```bash
+npm run test
+```
+
+---
+
+## Notes
+
+* Код следует принципам чистой архитектуры
+* Комментарии используются только для объяснения архитектурных и бизнес-решений
+* Проект легко масштабируется под реальные production-сценарии
+
+---
+
+## Author
+
+Тестовое задание выполнено в рамках отбора на позицию **Middle NestJS Developer**.
