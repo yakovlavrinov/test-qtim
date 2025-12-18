@@ -85,7 +85,7 @@ describe('ArticlesService', () => {
         page: 1,
         limit: 10,
       };
-      mockCacheManager.get.mockResolvedValueOnce(5); // version
+      mockCacheManager.get.mockResolvedValueOnce(5);
       mockCacheManager.get.mockResolvedValueOnce(cachedResult);
 
       const result = await service.findAll({ page: 1, limit: 10 });
