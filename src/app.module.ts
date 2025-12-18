@@ -24,7 +24,7 @@ import * as redisStore from 'cache-manager-redis-store';
           host: process.env.REDIS_HOST,
           port: Number(process.env.REDIS_PORT),
         },
-        ttl: 60,
+        ttl: 60_000,
       }),
       isGlobal: true,
     }),
